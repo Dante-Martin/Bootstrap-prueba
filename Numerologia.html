@@ -63,19 +63,7 @@
     <h1>My First Bootstrap Page</h1>
     <p>Resize this responsive page to see the effect!</p>
   </div>
-  <!-- <div id="linea1" class="row">
 
-    <div class="col">
-
-      <div class="row">
-        <span class="letra rounded-4">d</span>
-      </div>
-      <div class="row">
-        3
-      </div>
-
-    </div>
- -->
   <div class="container-md">
 
     <form>
@@ -96,34 +84,41 @@
     <p id="nombreMostrado"></p>
 
     <!-- <div class=" text-center  justify-content-start" style="--bs-columns: 3"> -->
-    <section class="row row-cols-auto">
-      <!-- incorporar js para cuadrados automaticos donde aparecen las letras de tu nombre y apellido con su representacion en numeros-->
 
-      <!-- <div class="col">
+    <!-- incorporar js para cuadrados automaticos donde aparecen las letras de tu nombre y apellido con su representacion en numeros-->
+
+    <!-- <div class="col">
          incorporar js para cuadrados automaticos para las letras de tu nombre-->
-      <!-- <span class="rounded-4">D</span>
-        <div class="grid" id="numero">
+    <!-- <span class="rounded-4">D</span>
+        <div class="row" id="numero">
           < incorporar js para cuadrados automaticos representa el valor de las letras-->
-      <!-- <div>Number-column</div>
+    <!-- <div>Number-column</div>
           <div>Number-column</div> -->
-      <!-- </div>
+    <!-- </div>
 
       </div> -->
 
-      <div id="mostrar0" class="row"></div>
-      <div id="mostrar1" class="row"></div>
-      <div id="mostrar2" class="row"></div>
-      <div id="mostrar3" class="row"></div>
+    <!-- <div id="linea1" class="row">
 
-    </section>
+    <div class="col">
 
+      <div class="row">
+        <span class="letra rounded-4">d</span>
+      </div>
+      <div class="row">
+        3
+      </div>
+
+    </div>
+ -->
+    <div id="linea0" class="row row-cols-auto"></div>
+    <div id="linea1" class="row row-cols-auto"></div>
+    <div id="linea2" class="row row-cols-auto"></div>
+    <div id="linear3" class="row row-cols-auto"></div>
 
 </body>
 <script>
-  //  nombreInput.addEventListener('input', () => {
-  //         const nombre = nombreInput.value; //cadena de texto
-  //         mostrarNombreLetraPorLetra(nombre);
-  //     });
+
   document.getElementById('boton').addEventListener("click", publicar);
   const nombreInput = document.getElementById('nombreInput');
   const nombreMostrado = document.getElementById('nombreMostrado');
@@ -131,16 +126,23 @@
 
   function publicar() {
     event.preventDefault();
-    //alert("se ha dado click"); 
 
     const nombre = nombreInput.value; //cadena de texto
     mostrarNombreLetraPorLetra(nombre);
+    // mostrarNombreLetraPorLetra("ignacio");
 
   }
 
   function mostrarNombreLetraPorLetra(nombre) {
 
     let i;
+
+    let numero1 = [1, 2, 3, 4, 20, 30];
+    let numero2 = [5, 6, 7, 8, 30, 40];
+
+
+    console.log(numero2[0], numero1[1]);
+
     nombreMostrado.textContent = ''; // Limpiar el contenido previo
 
 
@@ -150,7 +152,7 @@
 
       nombreMostrado.textContent += nombre[i];//recorre la cadena de texto en la posicion i
 
-      var mostrar = document.getElementById('mostrar0');
+      var mostrar = document.getElementById('linea0');
 
       var new_div_col = document.createElement('div');
       new_div_col.className = "col";
@@ -170,8 +172,49 @@
       new_span_numero2.className = "numero";
 
       new_span_letra.innerHTML = nombre[i];
-      new_span_numero1.innerHTML = "1";
-      new_span_numero2.innerHTML = "2";
+      new_span_numero1.innerHTML = numero1[i];
+      new_span_numero2.innerHTML = numero2[i];
+
+      new_div_row.appendChild(new_span_letra);
+      new_div_row2.appendChild(new_span_numero1);
+      new_div_row3.appendChild(new_span_numero2);
+      new_div_col.appendChild(new_div_row);
+      new_div_col.appendChild(new_div_row2);
+      new_div_col.appendChild(new_div_row3);
+
+      mostrar.appendChild(new_div_col);
+
+
+
+    }
+    for (i = 0; i < nombre.length; i++)
+    // if (i < nombre.length)
+    {
+
+      nombreMostrado.textContent += nombre[i];//recorre la cadena de texto en la posicion i
+
+      var mostrar = document.getElementById('linea1');
+
+      var new_div_col = document.createElement('div');
+      new_div_col.className = "col";
+
+      var new_div_row = document.createElement('div');
+      new_div_row.className = "row";
+      var new_div_row2 = document.createElement('div');
+      new_div_row2.className = "row";
+      var new_div_row3 = document.createElement('div');
+      new_div_row3.className = "row";
+
+      var new_span_letra = document.createElement('span');
+      new_span_letra.className = "letra rounded-4";
+      var new_span_numero1 = document.createElement('span');
+      new_span_numero1.className = "numero";
+      var new_span_numero2 = document.createElement('span');
+      new_span_numero2.className = "numero";
+
+      new_span_letra.innerHTML = nombre[i];
+      new_span_numero1.innerHTML = numero1[i];
+      new_span_numero2.innerHTML = numero2[i];
 
       new_div_row.appendChild(new_span_letra);
       new_div_row2.appendChild(new_span_numero1);
@@ -200,8 +243,14 @@
       nombreInput.value = '';
       nombreMostrado.innerHTML = '';
 
-      const contenidoEliminar = document.getElementById('mostrar0');
-      contenidoEliminar.innerHTML = '';
+      const contenidoEliminar0 = document.getElementById('linea0');
+      contenidoEliminar0.innerHTML = '';
+      const contenidoEliminar1 = document.getElementById('linea1');
+      contenidoEliminar1.innerHTML = '';
+      const contenidoEliminar2 = document.getElementById('linea2');
+      contenidoEliminar2.innerHTML = '';
+      const contenidoEliminar3 = document.getElementById('linea3');
+      contenidoEliminar3.innerHTML = '';
     }
 
   }
