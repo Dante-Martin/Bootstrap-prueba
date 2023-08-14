@@ -11,8 +11,6 @@
   <style>
     .letra {
 
-
-
       text-align: center;
       vertical-align: middle;
       line-height: 40px;
@@ -22,12 +20,9 @@
       margin: 6px;
       background-color: #a39999;
 
-
     }
 
     .numero {
-
-
 
       text-align: center;
       vertical-align: middle;
@@ -37,10 +32,7 @@
       height: 40px;
       margin: 6px;
 
-
-
     }
-
 
     .container-md {
       margin-top: 20px;
@@ -67,68 +59,65 @@
 
 <body>
 
-
-
   <div class="container-fluid p-5 bg-primary text-white text-center">
     <h1>My First Bootstrap Page</h1>
     <p>Resize this responsive page to see the effect!</p>
   </div>
-  <div id="linea1" class="row">
-
+  <!-- <div id="linea1" class="row">
 
     <div class="col">
-
 
       <div class="row">
         <span class="letra rounded-4">d</span>
       </div>
       <div class="row">
         3
-
-
       </div>
-
-
-
 
     </div>
+ -->
+  <div class="container-md">
 
-
-
-    <div class="container-md">
-
-      <form>
-        <div class="form-group row">
-          <label for="nombreInput" class="col-sm-2 col-form-label">Nombre</label>
-          <div class="col-sm-10">
-            <input type="nombreInput" class="form-control" id="nombreInput" placeholder="Ingrese su nombre">
-          </div>
+    <form>
+      <div class="form-group row">
+        <label for="nombreInput" class="col-sm-2 col-form-label">Nombre</label>
+        <div class="col-sm-10">
+          <input type="nombreInput" class="form-control" id="nombreInput" placeholder="Ingrese su nombre">
         </div>
-        <div class="form-group row">
-          <div class="col-sm-10 offset-sm-2">
-            <button type="submit" class="btn btn-primary" id="boton">Publicar</button>
-          </div>
-        </div>
-      </form>
-
-      <p id="nombreMostrado"></p>
-
-      <div class=" text-center  justify-content-start" style="--bs-columns: 3">
-        <!-- incorporar js para cuadrados automaticos donde aparecen las letras de tu nombre y apellido con su representacion en numeros-->
-
-        <div class="col">
-          <!-- incorporar js para cuadrados automaticos para las letras de tu nombre-->
-          <span class="rounded-4">D</span>
-          <div class="grid" id="numero">
-            <!-- incorporar js para cuadrados automaticos representa el valor de las letras-->
-            <div>Number-column</div>
-            <div>Number-column</div>
-          </div>
-
-        </div>
-
-        <div id="mostrar" class="row"></div>
       </div>
+      <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+          <button type="submit" class="btn btn-primary" id="boton">Publicar</button>
+          <button type="button" class="btn btn-danger" id="limpiar">Limpiar</button>
+        </div>
+      </div>
+    </form>
+
+    <p id="nombreMostrado"></p>
+
+    <!-- <div class=" text-center  justify-content-start" style="--bs-columns: 3"> -->
+    <section class="row row-cols-auto">
+      <!-- incorporar js para cuadrados automaticos donde aparecen las letras de tu nombre y apellido con su representacion en numeros-->
+
+      <!-- <div class="col">
+         incorporar js para cuadrados automaticos para las letras de tu nombre-->
+      <!-- <span class="rounded-4">D</span>
+        <div class="grid" id="numero">
+          < incorporar js para cuadrados automaticos representa el valor de las letras-->
+      <!-- <div>Number-column</div>
+          <div>Number-column</div> -->
+      <!-- </div>
+
+      </div> -->
+
+      <div id="mostrar0" class="row"></div>
+      <div id="mostrar1" class="row"></div>
+      <div id="mostrar2" class="row"></div>
+      <div id="mostrar3" class="row"></div>
+
+    </section>
+
+
 </body>
 <script>
   //  nombreInput.addEventListener('input', () => {
@@ -142,52 +131,54 @@
 
   function publicar() {
     event.preventDefault();
-    //alert("se ha dado click");
+    //alert("se ha dado click"); 
 
     const nombre = nombreInput.value; //cadena de texto
     mostrarNombreLetraPorLetra(nombre);
-
 
   }
 
   function mostrarNombreLetraPorLetra(nombre) {
 
     let i;
-    // nombreMostrado.textContent = ''; // Limpiar el contenido previo
+    nombreMostrado.textContent = ''; // Limpiar el contenido previo
 
 
     for (i = 0; i < nombre.length; i++)
     // if (i < nombre.length)
     {
 
-
-
-
-
-
-
       nombreMostrado.textContent += nombre[i];//recorre la cadena de texto en la posicion i
 
-      var mostrar = document.getElementById('mostrar');
+      var mostrar = document.getElementById('mostrar0');
 
       var new_div_col = document.createElement('div');
       new_div_col.className = "col";
+
       var new_div_row = document.createElement('div');
       new_div_row.className = "row";
       var new_div_row2 = document.createElement('div');
       new_div_row2.className = "row";
+      var new_div_row3 = document.createElement('div');
+      new_div_row3.className = "row";
+
       var new_span_letra = document.createElement('span');
       new_span_letra.className = "letra rounded-4";
-      var new_span_numero = document.createElement('span');
-      new_span_numero.className = "numero";
+      var new_span_numero1 = document.createElement('span');
+      new_span_numero1.className = "numero";
+      var new_span_numero2 = document.createElement('span');
+      new_span_numero2.className = "numero";
 
       new_span_letra.innerHTML = nombre[i];
-      new_span_numero.innerHTML = "8";
+      new_span_numero1.innerHTML = "1";
+      new_span_numero2.innerHTML = "2";
 
       new_div_row.appendChild(new_span_letra);
-      new_div_row2.appendChild(new_span_numero);
+      new_div_row2.appendChild(new_span_numero1);
+      new_div_row3.appendChild(new_span_numero2);
       new_div_col.appendChild(new_div_row);
       new_div_col.appendChild(new_div_row2);
+      new_div_col.appendChild(new_div_row3);
 
       mostrar.appendChild(new_div_col);
 
@@ -196,7 +187,22 @@
     }
 
 
-    // nombre = ""; // Limpiar el contenido previo
+  }
+
+  const botonLimpiar = document.getElementById('limpiar');
+  botonLimpiar.onclick = function () {
+    r = 1;
+    limpiarLineas(r);
+  }
+
+  function limpiarLineas(r) {
+    if (r == 1) {
+      nombreInput.value = '';
+      nombreMostrado.innerHTML = '';
+
+      const contenidoEliminar = document.getElementById('mostrar0');
+      contenidoEliminar.innerHTML = '';
+    }
 
   }
 
