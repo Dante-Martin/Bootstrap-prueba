@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+        integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+        integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <title>Arbol de la vida</title>
+    <style>
+        body {
+            background-color: black;
+            font: inherit;
+            font-family: "sans-serif";
+        }
+
+        .row {
+            color: white;
+        }
+
+        .input-group-text {
+            min-width: 220px;
+        }
+
+        .recuadro {
+            max-width: 50px;
+            border-width: thin;
+        }
+
+        .esmerilado {
+            box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+        }
+
+        .letra {
+
+            text-align: center;
+            vertical-align: middle;
+            line-height: 40px;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 6px;
+            background-color: #a39999;
+            margin-top: 30px;
+
+        }
+
+        .nombre {
+
+            text-align: center;
+            vertical-align: middle;
+            line-height: 40px;
+            display: inline-block;
+
+            height: 40px;
+            margin: 6px;
+
+            margin-top: 30px;
+
+        }
+
+        .numero {
+
+            text-align: center;
+            vertical-align: middle;
+            line-height: 4px;
+            display: inline-block;
+            width: 40px;
+
+            margin: 6px;
+
+        }
+
+        .container-md {
+            margin-top: 20px;
+        }
+
+        .col {
+            text-align: justify;
+        }
+
+        .titulo {
+            position: absolute;
+            left: 700px;
+            top: 650px;
+            color: antiquewhite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="titulo">
+            <h3 style="color: red" id="muestraError">&nbsp;</h3>
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-lg-5 col-md-12 mt-2
+            ">
+                <div>
+                    <form>
+                        <div class="input-group ">
+                            <span class="input-group-text bg-warning">Nombre completo:</span>
+                            <input type="text" class="form-control inputletra" name="nombre">
+                        </div>
+                        <div class="input-group ">
+                            <span class="input-group-text bg-warning">Primer apellido:</span>
+                            <input type="text" class="form-control inputletra" name="apellido" />
+
+                        </div>
+                        <div class="input-group ">
+                            <span class="input-group-text bg-warning">Segundo apellido:</span>
+                            <input type="text" class="form-control inputletra" name="apellido2" />
+
+                        </div>
+
+                        <div class="input-group ">
+                            <span class="input-group-text bg-warning">Segundo apellido paterno:</span>
+                            <input type="text" class="form-control inputletra" name="apellido2P" />
+                        </div>
+                        <div class="input-group ">
+                            <span class="input-group-text bg-warning">Segundo apellido materno:</span>
+                            <input type="text" class="form-control inputletra" name="apellido2M" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-12"></div>
+            <div class="col-lg-5 col-md-12  mt-2">
+                <div class="row">
+                    <table>
+                        <tr style="color: black">
+                            <td></td>
+                            <td class="bg-warning recuadro">Suma</td>
+                            <td class="bg-warning recuadro">Suma 1 cifra</td>
+                        </tr>
+                        <tr style="
+    background-color: white;color: black;
+">
+                            <td class="bg-warning recuadro">Sum (Vocales)</td>
+                            <td class="recuadro" id="v"></td>
+                            <td class="recuadro" id="v1"></td>
+                        </tr>
+                        <tr style="
+    background-color: white;color: black;
+">
+                            <td class="bg-warning recuadro">Sum (Consonantes)</td>
+                            <td class="recuadro" id="c"></td>
+                            <td class="recuadro" id="c1"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row" style="margin-top: 30px;    ">
+                    <div class="col">
+                        <select id="alfabeto" class="form-select">
+                            <!-- style="width: 200px" -->
+                            <option value="Castellano94" selected>Castellano hasta 1994</option>
+                            <option value="Castellano95">Castellano desde 1995</option>
+                            <option value="internacional">Alfabeto internacional</option>
+                            <option value="italiano">Alfabeto Italiano</option>
+                            <option value="portugues">Alfabeto Portugués</option>
+                            <option value="aleman">Alfabeto alemán</option>
+                        </select>
+                    </div>
+                    <div class="col" style="margin-top: 10px;">
+                        Tipo de alfabeto</div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sd-12">
+                <div id="margen1" class="row row-cols-auto">
+
+                </div>
+                <div id="margen2" class="row row-cols-auto">
+
+                </div>
+                <div id="margen3" class="row row-cols-auto">
+
+                </div>
+                <div id="margen4" class="row row-cols-auto">
+
+                </div>
+                <div id="margen5" class="row row-cols-auto">
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-9 col-sd-12">
+                <div id="linea1" class="row row-cols-auto">
+
+                </div>
+                <div id="linea2" class="row row-cols-auto">
+
+                </div>
+                <div id="linea3" class="row row-cols-auto">
+
+                </div>
+                <div id="linea4" class="row row-cols-auto">
+
+                </div>
+                <div id="linea5" class="row row-cols-auto">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileSuelto = true;
+        const color1 = "#15fad9";
+        const color2 = "#ff1aff";
+        const color3 = "#ffb900";
+        const colorKarmaTriplicado = "red";
+        let auxcolorpormodificaciones = color1;
+        const colorfosforito = "#15fad9";
+        const puntosRadio = 20;
+
+        let v_alfabeto = "Castellano94";
+        let v_nombre = '';
+        let v_apellido1 = '';
+        let v_apellido2 = '';
+        let v_apellido2P = '';
+        let v_apellido2M = '';
+        let numero1 = [];
+        let numero2 = [];
+        let tr;
+        let v_mes;
+        let v_año;
+        let muestraError = "";
+        let v_caminodevida = 0;
+
+
+
+        const alfabeto = [
+            ["A", 1, 1],
+            ["B", 2, 2],
+            ["C", 3, 3],
+            ["CH", 4, 4],
+            ["D", 5, 5],
+            ["E", 6, 6],
+            ["F", 7, 7],
+            ["G", 8, 8],
+            ["H", 9, 9],
+            ["I", 1, 10],
+            ["J", 2, 20],
+            ["K", 3, 30],
+            ["L", 4, 40],
+            ["LL", 5, 50],
+            ["M", 6, 60],
+            ["N", 7, 70],
+            ["Ñ", 8, 80],
+            ["O", 9, 90],
+            ["P", 1, 100],
+            ["Q", 2, 200],
+            ["R", 3, 300],
+            ["S", 4, 400],
+            ["T", 5, 500],
+            ["U", 6, 600],
+            ["V", 7, 700],
+            ["W", 8, 800],
+            ["X", 9, 900],
+            ["Y", 1, 1000],
+            ["Z", 2, 2000],
+            [" ", 0, 0],
+        ];
+        const Castellano95 = [
+            ["A", 1, 1],
+            ["B", 2, 2],
+            ["C", 3, 3],
+            ["D", 4, 4],
+            ["E", 5, 5],
+            ["F", 6, 6],
+            ["G", 7, 7],
+            ["H", 8, 8],
+            ["I", 9, 9],
+            ["J", 1, 10],
+            ["K", 2, 20],
+            ["L", 3, 30],
+            ["M", 4, 40],
+            ["N", 5, 50],
+            ["Ñ", 6, 60],
+            ["O", 7, 70],
+            ["P", 8, 80],
+            ["Q", 9, 90],
+            ["R", 1, 100],
+            ["S", 2, 200],
+            ["T", 3, 300],
+            ["U", 4, 400],
+            ["V", 5, 500],
+            ["W", 6, 600],
+            ["X", 7, 700],
+            ["Y", 8, 800],
+            ["Z", 9, 900],
+            [" ", 0, 0],
+        ];
+        const internacional = [
+            ["A", 1, 1],
+            ["B", 2, 2],
+            ["C", 3, 3],
+            ["D", 4, 4],
+            ["E", 5, 5],
+            ["F", 6, 6],
+            ["G", 7, 7],
+            ["H", 8, 8],
+            ["I", 9, 9],
+            ["J", 1, 10],
+            ["K", 2, 20],
+            ["L", 3, 30],
+            ["M", 4, 40],
+            ["N", 5, 50],
+
+            ["O", 6, 60],
+            ["P", 7, 70],
+            ["Q", 8, 80],
+            ["R", 9, 90],
+            ["S", 1, 100],
+            ["T", 2, 200],
+            ["U", 3, 300],
+            ["V", 4, 400],
+            ["W", 5, 500],
+            ["X", 6, 600],
+            ["Y", 7, 700],
+            ["Z", 8, 800],
+            [" ", 0, 0],
+        ];
+        const italiano = [
+            ["A", 1, 1],
+            ["B", 2, 2],
+            ["C", 3, 3],
+            ["D", 4, 4],
+            ["E", 5, 5],
+            ["F", 6, 6],
+            ["G", 7, 7],
+            ["H", 9, 9],
+            ["I", 8, 8],
+            ["L", 1, 10],
+            ["M", 2, 20],
+            ["N", 3, 30],
+            ["O", 4, 40],
+            ["P", 5, 50],
+            ["Q", 6, 60],
+            ["R", 7, 70],
+            ["S", 8, 80],
+            ["T", 9, 90],
+            ["U", 1, 100],
+            ["V", 2, 200],
+            ["Z", 3, 300],
+            [" ", 0, 0],
+        ];
+        const portugues = [
+            ["A", 1, 1],
+            ["B", 2, 2],
+            ["C", 3, 3],
+            ["D", 4, 4],
+            ["E", 5, 5],
+            ["F", 6, 6],
+            ["G", 7, 7],
+            ["H", 8, 8],
+            ["I", 9, 9],
+            ["J", 1, 10],
+            ["K", 2, 20],
+            ["L", 3, 30],
+            ["M", 4, 40],
+            ["N", 5, 50],
+            ["O", 6, 60],
+            ["P", 7, 70],
+            ["Q", 8, 80],
+            ["R", 9, 90],
+            ["S", 1, 100],
+            ["T", 2, 200],
+            ["U", 3, 300],
+            ["V", 4, 400],
+            ["X", 5, 500],
+            ["Y", 6, 600],
+            ["Z", 7, 700],
+            [" ", 0, 0],
+        ];
+        const aleman = [
+            ["A", 1, 1],
+            ["B", 2, 2],
+            ["C", 3, 3],
+            ["D", 4, 4],
+            ["E", 5, 5],
+            ["F", 6, 6],
+            ["G", 7, 7],
+            ["H", 8, 8],
+            ["I", 9, 9],
+            ["J", 1, 10],
+            ["K", 2, 20],
+            ["L", 3, 30],
+            ["M", 4, 40],
+            ["N", 5, 50],
+            ["O", 6, 60],
+            ["P", 7, 70],
+            ["Q", 8, 80],
+            ["R", 9, 90],
+            ["S", 1, 100],
+            ["T", 2, 200],
+            ["U", 3, 300],
+            ["V", 4, 400],
+            ["W", 5, 500],
+            ["X", 6, 600],
+            ["Z", 7, 700],
+            [" ", 0, 0],
+        ];
+        function reduccionA9(que) {
+            if (que > 22) {
+                muestraError =
+                    "error de interpretacioon en los calculos, por favor avise al administrador";
+                return;
+            }
+            if (que <= 9) return null;
+            if (que == 19) return 10;
+            let unidades = que % 10;
+            let decenas = Math.trunc(que / 10) % 10;
+            return unidades + decenas;
+        }
+
+        function reduccionA22(que) {
+            if (que <= 22) return parseInt(que);
+            let unidades = que % 10;
+            let decenas = Math.trunc(que / 10) % 10;
+            let centenas = Math.trunc(que / 100) % 10;
+            let miles = Math.trunc(que / 1000) % 10;
+            let decenamiles = Math.trunc(que / 10000) % 10;
+            let centenamiles = Math.trunc(que / 100000) % 10;
+            let millones = Math.trunc(que / 1000000) % 10;
+            return parseInt(
+                reduccionA22(
+                    unidades +
+                    decenas +
+                    centenas +
+                    miles +
+                    decenamiles +
+                    centenamiles +
+                    millones
+                )
+            );
+        }
+
+        function reduccionA0(que) {
+            let unidades = que % 10;
+            let decenas = Math.trunc(que / 10) % 10;
+            let centenas = Math.trunc(que / 100) % 10;
+            let miles = Math.trunc(que / 1000) % 10;
+
+            return parseInt(unidades + decenas + centenas + miles);
+        }
+
+        function desglosar(que, donde) {
+            //que las letras esten en el alfabeto
+            que = que.toUpperCase().trim();
+            que = eliminarDiacriticos(que);
+            let sumaNormal = 0,
+                sumaOculta = 0;
+            let letra;
+
+            switch (v_alfabeto) {
+                case "Castellano94":
+                    alfabetoElegido = alfabeto;
+                    break;
+                case "internacional":
+                    alfabetoElegido = internacional;
+                    que = quitarLetrsaNoEsten(que, alfabetoElegido);
+                    break;
+                case "Castellano95":
+                    alfabetoElegido = Castellano95;
+                    break;
+                case "italiano":
+                    alfabetoElegido = italiano;
+                    que = quitarLetrsaNoEsten(que, alfabetoElegido);
+                    break;
+                case "portugues":
+                    alfabetoElegido = portugues;
+                    que = quitarLetrsaNoEsten(que, alfabetoElegido);
+                    break;
+                case "aleman":
+                    alfabetoElegido = aleman;
+                    que = quitarLetrsaNoEsten(que, alfabetoElegido);
+                    break;
+                default:
+                    alfabetoElegido = alfabeto;
+                    que = quitarLetrsaNoEsten(que, alfabetoElegido);
+            }
+            for (let t = 0; t < que.length; t++) {
+                letra = que[t];
+                if (v_alfabeto == "Castellano94") {
+                    if (letra == "C" && t < que.length - 1 && que[t + 1] == "H") {
+                        letra = "CH";
+                        t++;
+                    }
+                    if (letra == "L" && t < que.length - 1 && que[t + 1] == "L") {
+                        letra = "LL";
+                        t++;
+                    }
+                }
+                let puntero = 0;
+                try {
+                    while (alfabetoElegido[puntero][0] != letra) {
+                        puntero++;
+                    }
+                } catch {
+                    muestraError = "la letra " + letra + " no está en el diccionario";
+                    return;
+                }
+                /* if (que == "SANCHEZ") {
+                  console.log(
+                    letra,
+                    "valor: " + alfabetoElegido[puntero][1],
+                    sumaNormal + alfabetoElegido[puntero][1]
+                  );
+                  
+                }*/
+                if (donde >= 1 && donde <= 5) {
+                    mostrarNombreLetraPorLetra(donde, letra, alfabetoElegido[puntero][1], alfabetoElegido[puntero][2]);
+                }
+                numero1.push(alfabetoElegido[puntero][1]);
+                numero2.push(alfabetoElegido[puntero][2]);
+                sumaNormal = sumaNormal + alfabetoElegido[puntero][1];
+                sumaOculta = sumaOculta + alfabetoElegido[puntero][2];
+            }
+            if (donde >= 1 && donde <= 5) {
+                mostrarNombreEntero(donde, que, reduccionA0(reduccionA22(sumaNormal)) + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + sumaNormal, reduccionA0(reduccionA22(sumaOculta)) + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + '&nbsp;' + sumaOculta);
+            }
+
+            //console.log(v_alfabeto, que, sumaNormal);
+            //console.log('filtrado: ', que);
+            return [que, sumaNormal, sumaOculta];
+        }
+        function sumavocales(que) {
+            //alfabetoElegido es ahora unn array global que lo llené al llamar a desglosa()
+            que = que.toUpperCase();
+            que = eliminarDiacriticos(que);
+
+            let sumaNormal = 0;
+            let letra;
+            for (let t = 0; t < que.length; t++) {
+                letra = que[t];
+                if (["A", "E", "I", "O", "U"].includes(letra)) {
+                    let puntero = 0;
+
+                    while (alfabetoElegido[puntero][0] != letra) {
+                        puntero++;
+                    }
+                    sumaNormal = sumaNormal + alfabetoElegido[puntero][1];
+                }
+            }
+
+            return sumaNormal;
+        }
+        function quitarLetrsaNoEsten(que, alfabetoElegido) {
+            const texto = [...que];
+            var result = "";
+            let flag;
+            texto.forEach((letra) => {
+                flag = true;
+                for (const item of alfabetoElegido) {
+                    if (item[0] === letra) {
+                        result = result + letra;
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    alert(
+                        "Se quitó la letra " + letra + " porque no está en el diccionario"
+                    );
+                }
+            });
+
+            return result;
+        }
+
+        function eliminarDiacriticos(texto) {
+            return texto
+                .normalize("NFD")
+                .replace(
+                    /([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+/gi,
+                    "$1"
+                )
+                .normalize()
+                .replace(/[^[A-ZÑ ]]*/g, "")
+                .replace(/[[]*/g, "");
+        }
+
+
+
+        const muestraErrorDiv = document.getElementById("muestraError");
+        let alfabetoElegido = [];
+
+
+        var inputletra = document.getElementsByClassName("inputletra");
+        for (let t = 0; t < inputletra.length; t++) {
+
+            inputletra[t].onchange = function (e) {
+                //console.log(this.name, this.value);
+                if (this.name == "nombre") {
+                    limpiarLineas(1);
+                    v_nombre = desglosar(this.value, 1)[0];
+                    this.value = v_nombre;
+                }
+                if (this.name == "apellido") {
+                    limpiarLineas(2);
+
+                    v_apellido1 = desglosar(this.value, 2)[0];
+                    this.value = v_apellido1;
+                }
+
+                if (this.name == "apellido2") {
+                    limpiarLineas(3);
+
+                    v_apellido2 = desglosar(this.value, 3)[0];
+                    this.value = v_apellido2;
+                }
+                if (this.name == "apellido2P") {
+                    limpiarLineas(4);
+
+                    apellido2P = desglosar(this.value, 4)[0];
+                    this.value = apellido2P;
+                }
+                if (this.name == "apellido2M") {
+                    limpiarLineas(5);
+
+                    apellido2M = desglosar(this.value, 5)[0];
+                    this.value = apellido2M;
+                }
+                let sumvocales = sumavocales(v_nombre) + sumavocales(v_apellido1) + sumavocales(v_apellido2);
+
+
+
+                //console.log(sumavocales(v_nombre), sumavocales(v_apellido1), sumavocales(v_apellido2), sumavocales(v_nombre) + sumavocales(v_apellido1) + sumavocales(v_apellido2));
+
+                let consonantes =
+                    desglosar(v_nombre)[1] +
+                    desglosar(v_apellido1)[1] +
+                    desglosar(v_apellido2)[1] -
+                    sumvocales;
+                document.getElementById("v").innerHTML = sumvocales;
+                document.getElementById("c").innerHTML = consonantes;
+                document.getElementById("v1").innerHTML = reduccionA22(sumvocales);
+                document.getElementById("c1").innerHTML =
+
+                    " " + reduccionA22(consonantes) + " / " + reduccionA0(reduccionA22(consonantes));
+
+
+                ;
+
+
+
+
+            };
+        }
+
+
+        const miSelect = document.getElementById("alfabeto");
+        miSelect.addEventListener("change", function () {
+            v_alfabeto = miSelect.value;
+            //console.log(v_alfabeto);
+
+
+
+            inputletra[0].value = v_nombre;
+            inputletra[1].value = v_apellido1;
+            inputletra[2].value = v_apellido2;
+            inputletra[3].value = v_apellido2P;
+            inputletra[4].value = v_apellido2M;
+
+            muestraErrorDiv.innerHTML = muestraError;
+            for (var t = 1; t <= 5; t++) {
+                limpiarLineas(t);
+            }
+
+        });
+        function mostrarNombreEntero(linea, nombre, numero1, numero2) {
+
+            var mostrar = document.getElementById('margen' + linea);
+            var new_div_col = document.createElement('div');
+            new_div_col.className = "col";
+            var new_div_row = document.createElement('div');
+            new_div_row.className = "row";
+            var new_div_row2 = document.createElement('div');
+            new_div_row2.className = "row";
+            var new_div_row3 = document.createElement('div');
+            new_div_row3.className = "row";
+            var new_span_letra = document.createElement('span');
+            new_span_letra.className = "nombre";
+            var new_span_numero1 = document.createElement('span');
+            new_span_numero1.className = "numero";
+            var new_span_numero2 = document.createElement('span');
+            new_span_numero2.className = "numero";
+
+            new_span_letra.innerHTML = nombre;
+            new_span_numero1.innerHTML = numero1;
+            new_span_numero2.innerHTML = numero2;
+
+            new_div_row.appendChild(new_span_letra);
+            new_div_row2.appendChild(new_span_numero1);
+            new_div_row3.appendChild(new_span_numero2);
+            new_div_col.appendChild(new_div_row);
+            new_div_col.appendChild(new_div_row2);
+            new_div_col.appendChild(new_div_row3);
+
+            mostrar.appendChild(new_div_col);
+
+        }
+        function mostrarNombreLetraPorLetra(linea, letra, numero1, numero2) {
+
+            var mostrar = document.getElementById('linea' + linea);
+            var new_div_col = document.createElement('div');
+            new_div_col.className = "col";
+            var new_div_row = document.createElement('div');
+            new_div_row.className = "row";
+            var new_div_row2 = document.createElement('div');
+            new_div_row2.className = "row";
+            var new_div_row3 = document.createElement('div');
+            new_div_row3.className = "row";
+            var new_span_letra = document.createElement('span');
+            new_span_letra.className = "letra rounded-2";
+            var new_span_numero1 = document.createElement('span');
+            new_span_numero1.className = "numero";
+            var new_span_numero2 = document.createElement('span');
+            new_span_numero2.className = "numero";
+
+            new_span_letra.innerHTML = letra;
+            new_span_numero1.innerHTML = numero1;
+            new_span_numero2.innerHTML = numero2;
+
+            new_div_row.appendChild(new_span_letra);
+            new_div_row2.appendChild(new_span_numero1);
+            new_div_row3.appendChild(new_span_numero2);
+            new_div_col.appendChild(new_div_row);
+            new_div_col.appendChild(new_div_row2);
+            new_div_col.appendChild(new_div_row3);
+
+            mostrar.appendChild(new_div_col);
+
+        }
+        function limpiarLineas(linea) {
+
+            var contenidoEliminar0 = document.getElementById('linea' + linea);
+            contenidoEliminar0.innerHTML = '';
+            contenidoEliminar0 = document.getElementById('margen' + linea);
+            contenidoEliminar0.innerHTML = '';
+        }
+
+
+    </script>
+</body>
+
+</html>
